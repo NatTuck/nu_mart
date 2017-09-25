@@ -2,6 +2,6 @@ defmodule NuMartWeb.PageController do
   use NuMartWeb, :controller
 
   def index(conn, _params) do
-    render conn, "index.html"
+    redirect conn, to: product_path(conn, :index)
   end
 end

@@ -21,3 +21,28 @@
 
 <span><%= link "Edit", to: product_path(@conn, :edit, @product) %></span>
 <span><%= link "Back", to: product_path(@conn, :index) %></span>
+
+<h3>Add to Cart</h3>
+
+<%= form_for @cart_item, cart_item_path(@conn, :create), fn f -> %>
+  <%= if @cart_item.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <%= hidden_input f, :cart_id %>
+  <%= hidden_input f, :product_id %>
+
+  <div class="form-group">
+    <%= label f, :count, class: "control-label" %>
+    <%= number_input f, :count, class: "form-control" %>
+    <%= error_tag f, :count %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+

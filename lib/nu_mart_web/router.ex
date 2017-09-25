@@ -1,5 +1,6 @@
 defmodule NuMartWeb.Router do
   use NuMartWeb, :router
+  import NuMartWeb.Plugs
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -7,6 +8,7 @@ defmodule NuMartWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_cart
   end
 
   pipeline :api do
@@ -18,6 +20,8 @@ defmodule NuMartWeb.Router do
 
     get "/", PageController, :index
     resources "/products", ProductController
+    resources "/carts", CartController
+    resources "/cart_items", CartItemController
   end
 
   # Other scopes may use custom stacks.
