@@ -12,24 +12,50 @@
   </head>
 
   <body>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-md">
+      <a class="navbar-brand" href="#">WebShop</a>
+
+      <button class="navbar-toggler" type="button"
+              data-toggle="collapse" data-target="#main-navbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="main-navbar">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <%= link "Products", to: product_path(@conn, :index), class: "nav-link" %>
+          </li>
+        </ul>
+      </div>
+
+      <form class="form-inline w-25">
+        <input type="text" placeholder="email" class="form-control">
+        <input type="submit" value="Log in" class="btn btn-primary">
+      </form>
+    </nav>
+
     <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
-          </ul>
-        </nav>
-        <span class="logo"></span>
-      </header>
+      <div class="row">
+        <div class="col-md-12">
+          <%= if get_flash(@conn, :info) do %>
+            <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+          <% end %>
+          <%= if get_flash(@conn, :error) do %>
+            <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+          <% end %>
+        </div>
+      </div>
 
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <div class="row my-2">
+        <div class="col-md-8">
+          <%= render @view_module, @view_template, assigns %>
+        </div>
+        <div class="col-md-4">
+          <%= render NuMartWeb.CartView, "show.html", conn: @conn, cart: @cart %>
+        </div>
+      </div>
+    </div>
 
-      <main role="main">
-        <%= render @view_module, @view_template, assigns %>
-      </main>
-
-    </div> <!-- /container -->
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

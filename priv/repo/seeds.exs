@@ -9,3 +9,18 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias NuMart.Repo
+alias NuMart.Shop.Product
+alias Decimal, as: D
+
+Repo.delete_all(Product)
+
+Repo.insert!(%Product{name: "Fidget Spinner", price: D.new("3000"), desc: "A waste of a ball bearing." })
+Repo.insert!(%Product{name: "Hoverboard", price: D.new("120"), desc: "Free battery fire." })
+Repo.insert!(%Product{name: "Pet Rock", price: D.new("49.99"), desc: "It's a rock." })
+Repo.insert!(%Product{name: "Furby", price: D.new("89.99"), desc: "A terrifying monster."})
+Repo.insert!(%Product{name: "Yo-Yo", price: D.new("3.49"), desc: "Some sort of weapon?" })
+Repo.insert!(%Product{name: "Slinky", price: D.new("5.75"), desc: "Warn-out spring." })
+
+

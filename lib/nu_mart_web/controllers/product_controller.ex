@@ -27,7 +27,9 @@ defmodule NuMartWeb.ProductController do
 
   def show(conn, %{"id" => id}) do
     product = Shop.get_product!(id)
-    render(conn, "show.html", product: product)
+    cart = conn.assigns[:cart]
+    cart_item = Shop.change_cart_item(%NuMart.Shop.CartItem{product_id: id, count: 1, cart_id: cart.id})
+    render(conn, "show.html", product: product, cart_item: cart_item)
   end
 
   def edit(conn, %{"id" => id}) do

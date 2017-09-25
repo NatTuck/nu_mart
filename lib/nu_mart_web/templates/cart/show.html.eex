@@ -1,0 +1,12 @@
+<h2>Show Cart</h2>
+
+<table class="table table-striped">
+<%= Enum.map @cart.cart_items, fn item -> %>
+  <tr>
+    <td><%= item.product.name %></td>
+    <td><%= item.count %></td>
+  </tr>
+<% end %>
+</table>
+
+
