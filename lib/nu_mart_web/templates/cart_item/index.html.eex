@@ -1,0 +1,26 @@
+<h2>Listing Cart items</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Count</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for cart_item <- @cart_items do %>
+    <tr>
+      <td><%= cart_item.count %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: cart_item_path(@conn, :show, cart_item), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: cart_item_path(@conn, :edit, cart_item), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: cart_item_path(@conn, :delete, cart_item), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Cart item", to: cart_item_path(@conn, :new) %></span>
