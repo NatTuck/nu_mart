@@ -6,6 +6,7 @@ defmodule NuMart.Shop.Cart do
 
   schema "carts" do
     field :cart_type, :string
+    belongs_to :user, NuMart.Accounts.User
     has_many :cart_items, NuMart.Shop.CartItem
 
     timestamps()
