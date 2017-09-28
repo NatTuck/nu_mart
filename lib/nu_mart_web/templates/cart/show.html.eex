@@ -1,13 +1,22 @@
 <h2>Show Cart</h2>
 
-<ul>
+<table class="table table-striped">
+  <%= Enum.map @cart.cart_items, fn item -> %>
+  <tr>
+    <td><%= item.product.name %></td>
+    <td><%= item.count %></td>
+    <td><%=
+        link(
+          raw("&times;"),
+          to: cart_item_path(@conn, :delete, item),
+          method: :delete,
+          class: "btn btn-danger btn-xs"
+        )
+    %></td>
+  </tr>
+  <% end %>
+</table>
 
-  <li>
-    <strong>Cart type:</strong>
-    <%= @cart.cart_type %>
-  </li>
-
-</ul>
 
 <span><%= link "Edit", to: cart_path(@conn, :edit, @cart) %></span>
 <span><%= link "Back", to: cart_path(@conn, :index) %></span>

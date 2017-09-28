@@ -1,6 +1,16 @@
 defmodule NuMartWeb.Plugs do
   import Plug.Conn
 
+  def fetch_user(conn, _opts) do
+    user_id = get_session(conn, :user_id)
+    if user_id do
+      user = NuMart.Accounts.get_user!(user_id)
+      assign(conn, :user, user)
+    else
+      assign(conn, :user, nil)
+    end
+  end
+
   # get_or_create_cart should be in the context module
   def get_or_create_cart(nil) do
     NuMart.Repo.insert!(%NuMart.Shop.Cart{})

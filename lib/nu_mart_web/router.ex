@@ -8,6 +8,7 @@ defmodule NuMartWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_user
     plug :fetch_cart
   end
 
@@ -22,6 +23,10 @@ defmodule NuMartWeb.Router do
     resources "/products", ProductController
     resources "/carts", CartController
     resources "/cart_items", CartItemController
+    resources "/users", UserController
+
+    post "/sessions", SessionController, :login
+    delete "/sessions", SessionController, :logout
   end
 
   # Other scopes may use custom stacks.
