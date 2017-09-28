@@ -15,7 +15,7 @@ defmodule NuMart.Shop.Cart do
   @doc false
   def changeset(%Cart{} = cart, attrs) do
     cart
-    |> cast(attrs, [:cart_type])
+    |> cast(attrs, [:cart_type, :user_id])
     |> validate_required([:cart_type])
   end
 end
