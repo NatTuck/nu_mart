@@ -6,9 +6,9 @@ After=network.target
 Type=forking
 User=numart
 Group=numart
-WorkingDirectory=/home/numart/nu_mart
-ExecStart=/home/numart/nu_mart/bin/myapp start
-ExecStop=/home/numart/nu_mart/bin/myapp stop
+WorkingDirectory=/home/numart/numart
+ExecStart=/home/numart/numart/bin/nu_mart start
+ExecStop=/home/numart/numart/bin/nu_mart stop
 Restart=on-failure
 RestartSec=5
 Environment=PORT=8000
