@@ -17,9 +17,11 @@ defmodule NuMartWeb.CartItemController do
   def create(conn, %{"cart_item" => cart_item_params}) do
     case Shop.create_cart_item(cart_item_params) do
       {:ok, cart_item} ->
+        cart_item = NuMart.Repo.preload(cart_item, :product)
+
         conn
-        |> put_flash(:info, "Cart item created successfully.")
-        |> redirect(to: cart_item_path(conn, :show, cart_item))
+        |> put_flash(:info, "Added #{cart_item.product.name} to cart.")
+        |> redirect(to: product_path(conn, :show, cart_item.product))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -55,6 +57,6 @@ defmodule NuMartWeb.CartItemController do
 
     conn
     |> put_flash(:info, "Cart item deleted successfully.")
-    |> redirect(to: cart_item_path(conn, :index))
+    |> redirect(to: NavigationHistory.last_path(conn, default: product_path(conn, :index)))
   end
 end

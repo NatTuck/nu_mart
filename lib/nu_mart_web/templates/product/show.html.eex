@@ -1,30 +1,22 @@
-<h2>Show Product</h2>
 
-<ul>
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><%= link("Products", to: product_path(@conn, :index)) %></li>
+  <li class="breadcrumb-item active"><%= @product.name %></li>
+</ol>
 
-  <li>
-    <strong>Name:</strong>
-    <%= @product.name %>
-  </li>
+<h2><%= @product.name %></h2>
 
-  <li>
-    <strong>Price:</strong>
-    <%= @product.price %>
-  </li>
+<%= if is_admin?(@current_user) do %>
+  <p><span><%= link "Edit", to: product_path(@conn, :edit, @product) %></span></p>
+<% end %>
 
-  <li>
-    <strong>Desc:</strong>
-    <%= @product.desc %>
-  </li>
+<p><%= img_tag(static_path(@conn, "/images/goat.jpg"), class: "w-50") %></p>
 
-</ul>
+<p><%= @product.desc %></p>
 
-<span><%= link "Edit", to: product_path(@conn, :edit, @product) %></span>
-<span><%= link "Back", to: product_path(@conn, :index) %></span>
+<p>Price: $<%= @product.price %></p>
 
-<h3>Add to Cart</h3>
-
-<%= form_for @cart_item, cart_item_path(@conn, :create), fn f -> %>
+<%= form_for @cart_item, cart_item_path(@conn, :create), [class: "form-inline"], fn f -> %>
   <%= if @cart_item.action do %>
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below.</p>
@@ -35,13 +27,12 @@
   <%= hidden_input f, :product_id %>
 
   <div class="form-group">
-    <%= label f, :count, class: "control-label" %>
     <%= number_input f, :count, class: "form-control" %>
     <%= error_tag f, :count %>
   </div>
 
   <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
+    <%= submit "Add to Cart", class: "btn btn-primary" %>
   </div>
 <% end %>
 

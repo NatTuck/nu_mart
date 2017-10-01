@@ -7,7 +7,7 @@ defmodule NuMartWeb.SessionController do
     user = Accounts.get_user_by_email(email)
 
     if user do
-      cart = conn.assigns[:cart]
+      cart = conn.assigns[:current_cart]
       NuMart.Shop.update_cart(cart, %{user_id: user.id})
 
       conn
@@ -25,6 +25,7 @@ defmodule NuMartWeb.SessionController do
   def logout(conn, _args) do
     conn
     |> put_session(:user_id, nil)
+    |> put_session(:cart_id, nil)
     |> put_flash(:info, "Logged out.")
     |> redirect(to: product_path(conn, :index))
   end

@@ -26,7 +26,7 @@ defmodule NuMartWeb.CartController do
   end
 
   def show(conn, %{"id" => id}) do
-    cart = Shop.get_cart!(id)
+    cart = Shop.get_cart!(id) |> NuMart.Repo.preload([:user, {:cart_items, :product}])
     render(conn, "show.html", cart: cart)
   end
 
