@@ -104,6 +104,21 @@ defmodule NuMart.Shop do
 
   alias NuMart.Shop.Cart
 
+  def get_or_create_cart(nil) do
+    Repo.insert!(%Cart{})
+    |> Repo.preload([:user, {:cart_items, :product}])
+  end
+
+  def get_or_create_cart(cart_id) do
+    cart = Repo.get(Cart, cart_id)
+    if cart do
+      cart
+      |> Repo.preload([:user, {:cart_items, :product}])
+    else
+      get_or_create_cart(nil)
+    end
+  end
+
   @doc """
   Returns the list of carts.
 

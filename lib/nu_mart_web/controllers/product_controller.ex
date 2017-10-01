@@ -27,7 +27,7 @@ defmodule NuMartWeb.ProductController do
 
   def show(conn, %{"id" => id}) do
     product = Shop.get_product!(id)
-    cart = conn.assigns[:cart]
+    cart = conn.assigns[:current_cart]
     cart_item = %NuMart.Shop.CartItem{
       product_id: id,
       count: 1,

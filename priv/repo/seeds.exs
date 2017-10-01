@@ -11,9 +11,15 @@
 # and so on) as they will fail if something goes wrong.
 
 alias NuMart.Repo
-alias NuMart.Shop.Product
 alias Decimal, as: D
 
+alias NuMart.Accounts.User
+Repo.delete_all(User)
+
+Repo.insert!(%User{email: "admin@example.com", is_admin?: true})
+Repo.insert!(%User{email: "nat@example.com",   is_admin?: false})
+
+alias NuMart.Shop.Product
 Repo.delete_all(Product)
 
 Repo.insert!(%Product{name: "Fidget Spinner", price: D.new("3000"),
@@ -23,8 +29,6 @@ Repo.insert!(%Product{name: "Pet Rock", price: D.new("49.99"), desc: "It's a roc
 Repo.insert!(%Product{name: "Furby", price: D.new("89.99"), desc: "A terrifying monster."})
 Repo.insert!(%Product{name: "Yo-Yo", price: D.new("3.49"), desc: "Some sort of weapon?" })
 Repo.insert!(%Product{name: "Slinky", price: D.new("5.75"), desc: "Warn-out spring." })
-
-
 
 
 

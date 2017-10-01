@@ -6,6 +6,7 @@ defmodule NuMart.Accounts.User do
 
   schema "users" do
     field :email, :string
+    field :is_admin?, :boolean
 
     timestamps()
   end
@@ -13,7 +14,7 @@ defmodule NuMart.Accounts.User do
   @doc false
   def changeset(%User{} = user, attrs) do
     user
-    |> cast(attrs, [:email])
+    |> cast(attrs, [:email, :is_admin?])
     |> validate_required([:email])
   end
 end

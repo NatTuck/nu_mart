@@ -1,0 +1,26 @@
+<p>Cart owner: <%= cart_owner(@cart) %></p>
+
+<table class="table table-striped">
+  <%= Enum.map @cart.cart_items, fn item -> %>
+    <tr>
+      <td><%= item.product.name %></td>
+      <td><%= item.count %></td>
+      <td><%= item.product.price %></td>
+      <td><%=
+link(
+  raw("&times;"),
+  to: cart_item_path(@conn, :delete, item),
+  method: :delete,
+  class: "btn btn-danger btn-xs"
+)
+        %></td>
+    </tr>
+  <% end %>
+
+    <tr>
+      <td>Total:</td>
+      <td><%= NuMartWeb.CartView.total_price(@cart) %></td>
+      <td>&nbsp;</td>
+    </tr>
+</table>
+

@@ -23,6 +23,7 @@ defmodule NuMartWeb do
       import Plug.Conn
       import NuMartWeb.Router.Helpers
       import NuMartWeb.Gettext
+      import NuMartWeb.Helpers
     end
   end
 
@@ -40,6 +41,7 @@ defmodule NuMartWeb do
       import NuMartWeb.Router.Helpers
       import NuMartWeb.ErrorHelpers
       import NuMartWeb.Gettext
+      import NuMartWeb.Helpers
     end
   end
 

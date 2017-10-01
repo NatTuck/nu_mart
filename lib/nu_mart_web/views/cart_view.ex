@@ -6,4 +6,12 @@ defmodule NuMartWeb.CartView do
       acc + item.count * Decimal.to_float(item.product.price)
     end
   end
+
+  def cart_owner(cart) do
+    if cart.user do
+      cart.user.email
+    else
+      "none"
+    end
+  end
 end

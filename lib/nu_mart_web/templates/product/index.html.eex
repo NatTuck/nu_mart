@@ -1,30 +1,34 @@
 <h2>Listing Products</h2>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Price</th>
-      <th>Desc</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for product <- @products do %>
-    <tr>
-      <td><%= product.name %></td>
-      <td><%= product.price %></td>
-      <td><%= product.desc %></td>
-
-      <td class="text-right">
-        <span><%= link "Show", to: product_path(@conn, :show, product), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Edit", to: product_path(@conn, :edit, product), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Delete", to: product_path(@conn, :delete, product), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
-      </td>
-    </tr>
+<%= if is_admin?(@current_user) do %>
+  <span><%= link "New Product", to: product_path(@conn, :new), class: "btn btn-outline-info" %></span>
 <% end %>
-  </tbody>
-</table>
 
-<span><%= link "New Product", to: product_path(@conn, :new) %></span>
+<div class="row">
+  <%= for product <- @products do %>
+    <div class="col-sm-4">
+      <div class="card m-2">
+        <%= img_tag(static_path(@conn, "/images/goat.jpg"), class: "card-img-top") %>
+        <div class="card-body">
+          <h4 class="card-title">
+            <%= link(product.name, to: product_path(@conn, :show, product)) %>
+          </h4>
+          <div class="card-text" style="height: 5em">
+            <p>$<%= product.price %></p>
+            <p><%= product.desc %></p>
+          </div>
+
+          <%= if is_admin?(@current_user) do %>
+            <div class="m-2">
+            <span><%= link "Edit", to: product_path(@conn, :edit, product),
+                  class: "btn btn-outline-info btn-xs" %></span>
+            <span><%= link "Delete", to: product_path(@conn, :delete, product), method: :delete,
+                  data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+

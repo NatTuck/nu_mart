@@ -43,6 +43,7 @@ defmodule NuMart.Mixfile do
       {:cowboy, "~> 1.0"},
       {:decimal, "~> 1.0"},
       {:distillery, "~> 1.5"},
+      {:navigation_history, "~> 0.0"},
     ]
   end
 
