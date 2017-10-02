@@ -15,6 +15,8 @@ defmodule NuMartWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_user
   end
 
   scope "/", NuMartWeb do
@@ -30,7 +32,9 @@ defmodule NuMartWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", NuMartWeb do
-  #   pipe_through :api
-  # end
+  scope "/api/v1", NuMartWeb do
+    pipe_through :api
+
+    resources "/reviews", ReviewController, except: [:new, :edit]
+  end
 end
