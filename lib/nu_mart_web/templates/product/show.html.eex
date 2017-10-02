@@ -36,4 +36,39 @@
   </div>
 <% end %>
 
+<div id="product-reviews"
+     data-path="<%= review_path(@conn, :index) %>"
+     data-product_id="<%= @product.id %>">
+  &nbsp;
+</div>
+
+<script id="reviews-template" type="text/x-handlebars-template">
+  <div class="m-2">
+    <h2>Reviews</h2>
+
+    {{#each data}}
+    <div class="card w-75 m-2">
+      <div class="card-body">
+        <h6 class="">{{user_email}}</h6>
+        <div class="card-text">
+          <p>Stars: {{stars}}</p>
+          <p>{{comment}}</p>
+        </div>
+      </div>
+    </div>
+    {{else}}
+    <p>No reviews yet.</p>
+    {{/each}}
+  </div>
+</script>
+
+<%= if @current_user do %>
+<div class="m-2">
+  <h2>Add Review</h2>
+  <textarea id="review-comment" class="form-control"></textarea>
+  <button id="review-add-button" class="btn btn-primary"
+          data-user-id="<%= @current_user.id %>">Add Review</button>
+</div>
+<% end %>
+
 
