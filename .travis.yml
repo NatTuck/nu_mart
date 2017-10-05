@@ -5,4 +5,4 @@ otp_release:
   - 20.1
 before_script:
   - psql -U postgres -c "CREATE USER nu_mart WITH PASSWORD 'oochooyuC5';"
-  - psql -U postgres -c "CREATE DATABASE nu_mart_test;"
+  - psql -U postgres -c "ALTER USER nu_mart CREATEDB;"
