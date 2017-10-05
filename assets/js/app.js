@@ -19,3 +19,62 @@ import "phoenix_html";
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+
+let handlebars = require("handlebars");
+
+$(function() {
+  if (!$("#reviews-template").length > 0) {
+    // Wrong page.
+    return;
+  }
+
+  let tt = $($("#reviews-template")[0]);
+  let code = tt.html();
+  let tmpl = handlebars.compile(code);
+
+  let dd = $($("#product-reviews")[0]);
+  let path = dd.data('path');
+  let p_id = dd.data('product_id');
+
+  let bb = $($("#review-add-button")[0]);
+  let u_id = bb.data('user-id');
+
+  function fetch_reviews() {
+    function got_reviews(data) {
+      console.log(data);
+      let html = tmpl(data);
+      dd.html(html);
+    }
+
+    $.ajax({
+      url: path,
+      data: {product_id: p_id},
+      contentType: "application/json",
+      dataType: "json",
+      method: "GET",
+      success: got_reviews,
+    });
+  }
+
+  function add_review() {
+    let comment = $("#review-comment").val();
+
+    let data = {review: {product_id: p_id, user_id: u_id, stars: 3, comment: comment}};
+
+    $.ajax({
+      url: path,
+      data: JSON.stringify(data),
+      contentType: "application/json",
+      dataType: "json",
+      method: "POST",
+      success: fetch_reviews,
+    });
+
+    $("#review-comment").val("");
+  }
+
+  bb.click(add_review);
+
+  fetch_reviews();
+});
+

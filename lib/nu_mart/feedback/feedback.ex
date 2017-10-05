@@ -19,6 +19,12 @@ defmodule NuMart.Feedback do
   """
   def list_reviews do
     Repo.all(Review)
+    |> Repo.preload(:user)
+  end
+
+  def list_product_reviews(product_id) do
+    Repo.all(from r in Review, where: r.product_id == ^product_id)
+    |> Repo.preload(:user)
   end
 
   @doc """
@@ -35,7 +41,10 @@ defmodule NuMart.Feedback do
       ** (Ecto.NoResultsError)
 
   """
-  def get_review!(id), do: Repo.get!(Review, id)
+  def get_review!(id) do
+    Repo.get!(Review, id)
+    |> Repo.preload(:user)
+  end
 
   @doc """
   Creates a review.

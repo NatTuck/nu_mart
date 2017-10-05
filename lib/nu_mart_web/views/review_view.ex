@@ -11,8 +11,17 @@ defmodule NuMartWeb.ReviewView do
   end
 
   def render("review.json", %{review: review}) do
-    %{id: review.id,
+    data = %{
+      id: review.id,
       stars: review.stars,
-      comment: review.comment}
+      comment: review.comment,
+      product_id: review.product_id,
+    }
+
+    if Ecto.assoc_loaded?(review.user) do
+      Map.put(data, :user_email, review.user.email)
+    else
+      data
+    end
   end
 end

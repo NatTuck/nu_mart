@@ -3,12 +3,11 @@ defmodule NuMart.Feedback.Review do
   import Ecto.Changeset
   alias NuMart.Feedback.Review
 
-
   schema "reviews" do
     field :comment, :string
     field :stars, :integer
-    field :product_id, :id
-    field :user_id, :id
+    belongs_to :product, NuMart.Store.Product
+    belongs_to :user, NuMart.Accounts.User
 
     timestamps()
   end
@@ -16,7 +15,7 @@ defmodule NuMart.Feedback.Review do
   @doc false
   def changeset(%Review{} = review, attrs) do
     review
-    |> cast(attrs, [:stars, :comment])
-    |> validate_required([:stars, :comment])
+    |> cast(attrs, [:stars, :comment, :user_id, :product_id])
+    |> validate_required([:stars, :comment, :user_id, :product_id])
   end
 end

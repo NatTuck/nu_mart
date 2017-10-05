@@ -6,12 +6,18 @@ defmodule NuMartWeb.ReviewController do
 
   action_fallback NuMartWeb.FallbackController
 
+  def index(conn, %{"product_id" => product_id}) do
+    reviews = Feedback.list_product_reviews(product_id)
+    render(conn, "index.json", reviews: reviews)
+  end
+
   def index(conn, _params) do
     reviews = Feedback.list_reviews()
     render(conn, "index.json", reviews: reviews)
   end
 
   def create(conn, %{"review" => review_params}) do
+    IO.inspect(review_params)
     with {:ok, %Review{} = review} <- Feedback.create_review(review_params) do
       conn
       |> put_status(:created)

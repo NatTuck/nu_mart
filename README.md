@@ -19,6 +19,7 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
   * Mailing list: http://groups.google.com/group/phoenix-talk
   * Source: https://github.com/phoenixframework/phoenix
 
+
 ## Asset Sources
 
  * Goat picture - https://www.pexels.com/photo/adorable-agriculture-animal-animal-photography-593898/
