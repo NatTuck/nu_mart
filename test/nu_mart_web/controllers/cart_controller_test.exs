@@ -34,7 +34,7 @@ defmodule NuMartWeb.CartControllerTest do
       assert redirected_to(conn) == cart_path(conn, :show, id)
 
       conn = get conn, cart_path(conn, :show, id)
-      assert html_response(conn, 200) =~ "Show Cart"
+      assert html_response(conn, 200) =~ "Checkout"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -60,7 +60,7 @@ defmodule NuMartWeb.CartControllerTest do
       assert redirected_to(conn) == cart_path(conn, :show, cart)
 
       conn = get conn, cart_path(conn, :show, cart)
-      assert html_response(conn, 200) =~ "some updated cart_type"
+      assert html_response(conn, 200) =~ "Cart owner"
     end
 
     test "renders errors when data is invalid", %{conn: conn, cart: cart} do

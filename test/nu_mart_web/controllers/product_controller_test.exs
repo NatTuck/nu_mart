@@ -34,7 +34,7 @@ defmodule NuMartWeb.ProductControllerTest do
       assert redirected_to(conn) == product_path(conn, :show, id)
 
       conn = get conn, product_path(conn, :show, id)
-      assert html_response(conn, 200) =~ "Show Product"
+      assert html_response(conn, 200) =~ @create_attrs.name
     end
 
     test "renders errors when data is invalid", %{conn: conn} do

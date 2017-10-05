@@ -4,19 +4,26 @@ defmodule NuMart.FeedbackTest do
   alias NuMart.Feedback
 
   describe "reviews" do
+    alias NuMart.Accounts
+    alias NuMart.Shop
     alias NuMart.Feedback.Review
 
-    @valid_attrs %{comment: "some comment", stars: 42}
     @update_attrs %{comment: "some updated comment", stars: 43}
     @invalid_attrs %{comment: nil, stars: nil}
+
+    def valid_attrs() do
+      {:ok, prod} = Shop.create_product(%{name: "Foo", desc: "bar", price: Decimal.new("10")})
+      {:ok, user} = Accounts.create_user(%{email: "jake@example.com"})
+      %{comment: "some comment", stars: 42, user_id: user.id, product_id: prod.id}
+    end
 
     def review_fixture(attrs \\ %{}) do
       {:ok, review} =
         attrs
-        |> Enum.into(@valid_attrs)
+        |> Enum.into(valid_attrs())
         |> Feedback.create_review()
 
-      review
+      NuMart.Repo.preload(review, [:user])
     end
 
     test "list_reviews/0 returns all reviews" do
@@ -30,7 +37,7 @@ defmodule NuMart.FeedbackTest do
     end
 
     test "create_review/1 with valid data creates a review" do
-      assert {:ok, %Review{} = review} = Feedback.create_review(@valid_attrs)
+      assert {:ok, %Review{} = review} = Feedback.create_review(valid_attrs())
       assert review.comment == "some comment"
       assert review.stars == 42
     end

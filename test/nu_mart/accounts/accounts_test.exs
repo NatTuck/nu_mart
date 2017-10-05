@@ -6,16 +6,15 @@ defmodule NuMart.AccountsTest do
   describe "users" do
     alias NuMart.Accounts.User
 
-    @valid_attrs %{email: "some email"}
+    @valid_attrs %{email: "some email", is_admin?: false}
     @update_attrs %{email: "some updated email"}
-    @invalid_attrs %{email: nil}
+    @invalid_attrs %{email: "", is_admin?: nil}
 
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =
         attrs
         |> Enum.into(@valid_attrs)
         |> Accounts.create_user()
-
       user
     end
 

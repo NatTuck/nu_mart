@@ -3,12 +3,17 @@ defmodule NuMartWeb.CartItemControllerTest do
 
   alias NuMart.Shop
 
-  @create_attrs %{count: 42}
   @update_attrs %{count: 43}
   @invalid_attrs %{count: nil}
 
+  def valid_attrs do
+    {:ok, cart} = Shop.create_cart(%{cart_type: "active"})
+    {:ok, prod} = Shop.create_product(%{name: "foo", desc: "bar", price: Decimal.new("77")})
+    %{count: 2, product_id: prod.id, cart_id: cart.id}
+  end
+
   def fixture(:cart_item) do
-    {:ok, cart_item} = Shop.create_cart_item(@create_attrs)
+    {:ok, cart_item} = Shop.create_cart_item(valid_attrs())
     cart_item
   end
 
@@ -27,14 +32,14 @@ defmodule NuMartWeb.CartItemControllerTest do
   end
 
   describe "create cart_item" do
-    test "redirects to show when data is valid", %{conn: conn} do
-      conn = post conn, cart_item_path(conn, :create), cart_item: @create_attrs
+    test "redirects to product when data is valid", %{conn: conn} do
+      conn = post conn, cart_item_path(conn, :create), cart_item: valid_attrs()
 
-      assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == cart_item_path(conn, :show, id)
+      assert %{id: _id} = redirected_params(conn)
+      assert redirected_to(conn) =~ "products"
 
-      conn = get conn, cart_item_path(conn, :show, id)
-      assert html_response(conn, 200) =~ "Show Cart item"
+      #conn = get conn, cart_item_path(conn, :show, id)
+      #assert html_response(conn, 200) =~ "Show Cart item"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -74,7 +79,7 @@ defmodule NuMartWeb.CartItemControllerTest do
 
     test "deletes chosen cart_item", %{conn: conn, cart_item: cart_item} do
       conn = delete conn, cart_item_path(conn, :delete, cart_item)
-      assert redirected_to(conn) == cart_item_path(conn, :index)
+      assert redirected_to(conn) == product_path(conn, :index)
       assert_error_sent 404, fn ->
         get conn, cart_item_path(conn, :show, cart_item)
       end
