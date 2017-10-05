@@ -20,6 +20,10 @@ import "phoenix_html";
 
 // import socket from "./socket"
 
+//  $("body") -> [every "body" tag in the page]
+//  $(".foo") -> [every HTML element with class "foo"]
+//  $("#reviews-template") -> [every HTML elem with id = "reviews-template"]
+
 let handlebars = require("handlebars");
 
 $(function() {
@@ -47,7 +51,7 @@ $(function() {
     }
 
     $.ajax({
-      url: path,
+      url: path,  // # "/api/v1/reviews"
       data: {product_id: p_id},
       contentType: "application/json",
       dataType: "json",
