@@ -17,7 +17,6 @@ defmodule NuMartWeb.ReviewController do
   end
 
   def create(conn, %{"review" => review_params}) do
-    IO.inspect(review_params)
     with {:ok, %Review{} = review} <- Feedback.create_review(review_params) do
       conn
       |> put_status(:created)

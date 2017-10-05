@@ -2,22 +2,51 @@ defmodule NuMart.ShopTest do
   use NuMart.DataCase
 
   alias NuMart.Shop
+  alias NuMart.Shop.Product
+  alias NuMart.Shop.Cart
+  alias NuMart.Shop.CartItem
+
+  def valid_attrs(:product) do
+    %{desc: "some desc", name: "some name", price: "120.50"}
+  end
+
+  def valid_attrs(:cart) do
+    %{cart_type: "active"}
+  end
+
+  def valid_attrs(:cart_item) do
+    cart = cart_fixture()
+    prod = product_fixture()
+    %{count: 2, product_id: prod.id, cart_id: cart.id}
+  end
+
+  def product_fixture(attrs \\ %{}) do
+    {:ok, product} =
+      attrs
+      |> Enum.into(valid_attrs(:product))
+      |> Shop.create_product()
+    product
+  end
+
+  def cart_fixture(attrs \\ %{}) do
+    {:ok, cart} =
+      attrs
+      |> Enum.into(valid_attrs(:cart))
+      |> Shop.create_cart()
+    cart
+  end
+
+  def cart_item_fixture(attrs \\ %{}) do
+    {:ok, cart_item} =
+      attrs
+      |> Enum.into(valid_attrs(:cart_item))
+      |> Shop.create_cart_item()
+    cart_item
+  end
 
   describe "products" do
-    alias NuMart.Shop.Product
-
-    @valid_attrs %{desc: "some desc", name: "some name", price: "120.5"}
     @update_attrs %{desc: "some updated desc", name: "some updated name", price: "456.7"}
     @invalid_attrs %{desc: nil, name: nil, price: nil}
-
-    def product_fixture(attrs \\ %{}) do
-      {:ok, product} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Shop.create_product()
-
-      product
-    end
 
     test "list_products/0 returns all products" do
       product = product_fixture()
@@ -30,10 +59,10 @@ defmodule NuMart.ShopTest do
     end
 
     test "create_product/1 with valid data creates a product" do
-      assert {:ok, %Product{} = product} = Shop.create_product(@valid_attrs)
+      assert {:ok, %Product{} = product} = Shop.create_product(valid_attrs(:product))
       assert product.desc == "some desc"
       assert product.name == "some name"
-      assert product.price == Decimal.new("120.5")
+      assert product.price == Decimal.new("120.50")
     end
 
     test "create_product/1 with invalid data returns error changeset" do
@@ -68,20 +97,9 @@ defmodule NuMart.ShopTest do
   end
 
   describe "carts" do
-    alias NuMart.Shop.Cart
-
     @valid_attrs %{cart_type: "some cart_type"}
     @update_attrs %{cart_type: "some updated cart_type"}
     @invalid_attrs %{cart_type: nil}
-
-    def cart_fixture(attrs \\ %{}) do
-      {:ok, cart} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Shop.create_cart()
-
-      cart
-    end
 
     test "list_carts/0 returns all carts" do
       cart = cart_fixture()
@@ -128,20 +146,8 @@ defmodule NuMart.ShopTest do
   end
 
   describe "cart_items" do
-    alias NuMart.Shop.CartItem
-
-    @valid_attrs %{count: 42}
     @update_attrs %{count: 43}
     @invalid_attrs %{count: nil}
-
-    def cart_item_fixture(attrs \\ %{}) do
-      {:ok, cart_item} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Shop.create_cart_item()
-
-      cart_item
-    end
 
     test "list_cart_items/0 returns all cart_items" do
       cart_item = cart_item_fixture()
@@ -154,8 +160,8 @@ defmodule NuMart.ShopTest do
     end
 
     test "create_cart_item/1 with valid data creates a cart_item" do
-      assert {:ok, %CartItem{} = cart_item} = Shop.create_cart_item(@valid_attrs)
-      assert cart_item.count == 42
+      assert {:ok, %CartItem{} = cart_item} = Shop.create_cart_item(valid_attrs(:cart_item))
+      assert cart_item.count == 2
     end
 
     test "create_cart_item/1 with invalid data returns error changeset" do
