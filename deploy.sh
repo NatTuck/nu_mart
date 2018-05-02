@@ -24,3 +24,5 @@ SRC=`pwd`
 (cd $DIR && tar xzvf $SRC/_build/prod/rel/nu_mart/releases/0.0.1/nu_mart.tar.gz)
 
 $DIR/bin/nu_mart start
+
+# It's not working because you need to set server: true
